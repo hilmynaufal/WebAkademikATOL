@@ -26,13 +26,39 @@ class NilaiController extends Controller
     }
 
     public function store(Request $request) {
+
+
+        $messages = [
+            'required' => ':attribute tidak boleh kosong!',
+            'min' => ':attribute minimal :min karakter!',
+            'max' => ':attribute maksimal :max karakter!',
+            'date' => 'masukan format tanggal yg benar! Contoh: 2020-05-29',
+            'time' => 'masukan format waktu yang benar! Contoh: 20:00',
+            'gt' => ':attribute harus lebih dari 0!',
+            'lte' => ':attribute tidak boleh lebih dari 100'
+        ];
+
+        $this->validate($request,[
+            'nisn' => 'required|max:16',
+            'kode_pelajaran' => 'required|max:8',
+            'tugas' => 'required|gt:0|lte:100|numeric',
+            'uts' => 'required|gt:0|lte:100|numeric',
+            'uas' => 'required|gt:0|lte:100|numeric',
+            'kehadiran' => 'required|gt:0|lte:100|numeric',
+            'na' => 'required|gt:0|lte:100|numeric',
+            'kelulusan' => 'required'
+        ], $messages);
+
+
         DB::table("nilai")->insert([
-            'Nisn' => $request->Nisn,
+            'nisn' => $request->nisn,
             'kode_pelajaran' => $request->kode_pelajaran,
+            'tugas' => $request->tugas,
             'uts' => $request->uts,
             'uas' => $request->uas,
+            'kehadiran' => $request->kehadiran,
             'na' => $request->na,
-            'hm' => $request->hm
+            'kelulusan' => $request->kelulusan
         ]);
 
         return redirect('nilai');
@@ -40,13 +66,15 @@ class NilaiController extends Controller
 
     public function update(Request $request) {
         //
-         DB::table("nilai")->where('Nisn', $request->OldNisn)->where('kode_pelajaran', $request->Oldkode_pelajaran)->update([
-            'Nisn' => $request->Nisn,
+         DB::table("nilai")->where('nisn', $request->OldNisn)->where('kode_pelajaran', $request->Oldkode_pelajaran)->update([
+            'nisn' => $request->nisn,
             'kode_pelajaran' => $request->kode_pelajaran,
+            'tugas' => $request->tugas,
             'uts' => $request->uts,
             'uas' => $request->uas,
+            'kehadiran' => $request->kehadiran,
             'na' => $request->na,
-            'hm' => $request->hm
+            'kelulusan' => $request->kelulusan
         ]);
 
         return redirect('nilai');

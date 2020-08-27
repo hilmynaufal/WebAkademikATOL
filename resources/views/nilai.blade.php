@@ -1,4 +1,4 @@
-@extends('home')
+@extends('test')
 
 
 
@@ -6,19 +6,19 @@
 
 <div id="content" class="p-4 p-md-5 pt-5">
 <div class="col-md-12 p-5 pt-2">
-   <h3><i class="fas fa-paperclip mr-2"></i>NILAI</h3><hr>
+   <h3><i class="fa fa-paperclip mr-2"></i>NILAI</h3><hr>
    <label>Cari Siswa: </label>
     <select id="nama">
      <option selected disabled value="">-- Nama Siswa --</option>
       @foreach ($siswa as $val)
-       <option value="{{$val->Nisn}}">{{$val->nama_siswa}}</option>
+       <option value="{{$val->nisn}}">{{$val->nama_siswa}}</option>
             
          @endforeach
      </select>
-     <a href="/nilai" id="btnCari" class="btn btn-primary mr-3"><i class= "fas fa-plus mr-2"></i></i>Cari</a>
+     <a href="/nilai" id="btnCari" class="btn btn-primary mr-3"><i class= "fa fa-search mr-2"></i></i>Cari</a>
      <br>
      <br>
-   <a href="javascript:;" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary mr-3"><i class= "fas fa-plus mr-2"></i></i>Tambah Data</a>
+   <a href="javascript:;" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary mr-3"><i class= "fa fa-plus mr-2"></i></i>Tambah Data</a>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -27,8 +27,10 @@
       <th scope="col">Nama</th>
       <th style="display:none" scope="col">Pelajaran</th>
       <th scope="col">Pelajaran</th>
+      <th scope="col">Tugas</th>
       <th scope="col">UTS</th>
       <th scope="col">UAS</th>
+      <th scope="col">Kehadiran</th>
       <th scope="col">Nilai Akhir</th>
       <th scope="col">Kelulusan</th>
       <th colspan="2" scope="col">AKSI</th>
@@ -40,18 +42,20 @@
 
     <tr>
       <th scope="row">{{ $loop->iteration }}</th>
-      <td style="display:none">{{ $val->Nisn }}</td>
+      <td style="display:none">{{ $val->nisn }}</td>
       <td>{{ $val->nama_siswa }}</td>
       <td style="display:none">{{ $val->kode_pelajaran }}</td>
       <td>{{ $val->nama_pelajaran }}</td>
+      <td>{{ $val->tugas}}</td>
       <td>{{ $val->uts}}</td>
       <td>{{ $val->uas}}</td>
+      <td>{{ $val->kehadiran}}</td>
       <td>{{ $val->na}}</td>
-      <td>{{ $val->hm}}</td>
+      <td>{{ $val->kelulusan}}</td>
 
         
-          <td><a class="fas fa-edit bg-warning p-2 text-white rounded edit-modal-click" data-Nisn="{{ $val->Nisn }}" data-kode-pelajaran="{{ $val->kode_pelajaran }}">EDIT</a></td>
-         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData('{{ $val->Nisn }}', '{{ $val->kode_pelajaran }}')"" data-target="#DeleteModal" class="fas fa-trash bg-danger p-2 text-white rounded">DELETE</a></td>
+          <td><a class="bg-warning p-2 text-white rounded edit-modal-click" data-Nisn="{{ $val->nisn }}" data-kode-pelajaran="{{ $val->kode_pelajaran }}">EDIT</a></td>
+         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData('{{ $val->nisn }}', '{{ $val->kode_pelajaran }}')"" data-target="#DeleteModal" class="bg-danger p-2 text-white rounded">DELETE</a></td>
 
     </tr>
     @endforeach
@@ -60,7 +64,16 @@
 
   </tbody>
 </table>
-
+  @if (count($errors) > 0)
+  <div class="alert alert-danger">
+    <h5>Error Memasukan Data</h5>
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+  @endif
 </div>
 
 <div class="modal fade" id="CreateModal" role="dialog">
@@ -77,10 +90,10 @@
               @csrf
                 <div class="form-group">
                   <label>Nama Siswa</label>
-                    <select class="form-control form-control-md" name="Nisn">
+                    <select class="form-control form-control-md" name="nisn">
                       <option selected disabled value="">-- Nama Siswa --</option>
                         @foreach ($siswa as $val)
-                         <option value="{{$val->Nisn}}">{{$val->nama_siswa}}</option>
+                         <option value="{{$val->nisn}}">{{$val->nama_siswa}}</option>
                         @endforeach
                       </select>      
                   </div>
@@ -94,6 +107,10 @@
                         @endforeach
                       </select>      
                   </div>
+            <div class="form-group">
+                  <label>Nilai Tugas</label>
+            <input type="number" name="tugas" class="form-control">      
+          </div>
                   <div class="form-group">
                   <label>Nilai UTS</label>
             <input type="number" name="uts" class="form-control">      
@@ -103,16 +120,20 @@
             <input type="number" name="uas" class="form-control">      
           </div>
           <div class="form-group">
+                  <label>Kehadiran</label>
+            <input type="number" name="kehadiran" class="form-control">      
+          </div>
+          <div class="form-group">
                   <label>Nilai Akhir</label>
             <input type="number" name="na" class="form-control">      
           </div>
           <div class="form-group">
                   <label>Lulus</label>
-                 <select class="form-control form-control-md" name="hm">
+                 <select class="form-control form-control-md" name="kelulusan">
                       <option selected disabled value="">-- Kelulusan --</option>
-                         <option value="T">Tidak Lulus</option>
-                         <option value="L">Lulus</option>
-                      </select>
+                         <option value="Tidak Lulus">Tidak Lulus</option>
+                         <option value="Lulus">Lulus</option>
+                  </select>
           </div>
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
@@ -142,10 +163,10 @@
           </div>
                 <div class="form-group">
                   <label>Nama Siswa</label>
-                    <select class="form-control form-control-md" id="edit-nama_siswa" name="Nisn">
+                    <select class="form-control form-control-md" id="edit-nama_siswa" name="nisn">
                       <option selected disabled value="">-- Nama Siswa --</option>
                         @foreach ($siswa as $val)
-                         <option value="{{$val->Nisn}}">{{$val->nama_siswa}}</option>
+                         <option value="{{$val->nisn}}">{{$val->nama_siswa}}</option>
                         @endforeach
                       </select>      
                   </div>
@@ -163,6 +184,10 @@
                       </select>      
                   </div>
                   <div class="form-group">
+                  <label>Nilai Tugas</label>
+            <input type="number" name="tugas" id="edit-tugas" class="form-control">      
+          </div>
+                  <div class="form-group">
                   <label>Nilai UTS</label>
             <input type="number" name="uts" id="edit-uts" class="form-control">      
           </div>
@@ -175,11 +200,15 @@
             <input type="number" name="na" id="edit-na" class="form-control">      
           </div>
           <div class="form-group">
-                  <label>Lulus</label>
-                 <select class="form-control form-control-md" id="edit-hm" name="hm">
+                  <label>Kehadiran</label>
+            <input type="number" name="kehadiran" id="edit-kehadiran" class="form-control">      
+          </div>
+          <div class="form-group">
+                  <label>Kelulusan</label>
+                 <select class="form-control form-control-md" id="edit-kelulusan" name="kelulusan">
                       <option selected disabled value="">-- Kelulusan --</option>
-                         <option value="T">Tidak Lulus</option>
-                         <option value="L">Lulus</option>
+                         <option value="Tidak Lulus">Tidak Lulus</option>
+                         <option value="Lulus">Lulus</option>
                       </select>
           </div>
           <div class="modal-footer">  
@@ -233,19 +262,23 @@
   $(document).on("click", ".edit-modal-click", function () {
     var nisn = $(this).attr('data-Nisn');
     var kode_pelajaran = $(this).attr('data-kode-pelajaran');
-    var rowCells = $(this).closest("tr").children(); 
-    var uts = rowCells.eq(5).text();
-    var uas = rowCells.eq(6).text();
-    var na = rowCells.eq(7).text();
-    var hm = rowCells.eq(8).text();
+    var rowCells = $(this).closest("tr").children();
+    var tugas = rowCells.eq(5).text(); 
+    var uts = rowCells.eq(6).text();
+    var uas = rowCells.eq(7).text();
+    var kehadiran = rowCells.eq(8).text();
+    var na = rowCells.eq(9).text();
+    var kelulusan = rowCells.eq(10).text();
     $('#edit-Nisn').val(nisn);
     $('#edit-kode_pelajaran').val(kode_pelajaran);
     $('#edit-nama_siswa').val(nisn);
     $('#edit-nama_pelajaran').val(kode_pelajaran);
+    $('#edit-tugas').val(tugas);
     $('#edit-uts').val(uts);
     $('#edit-uas').val(uas);
+    $('#edit-kehadiran').val(kehadiran);
     $('#edit-na').val(na);
-    $('#edit-hm').val(hm);
+    $('#edit-kelulusan').val(kelulusan);
     $('#EditModal').modal('show');
     });
 

@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PelajaranController extends Controller
+class KelasController extends Controller
 {
     //
     public function index() {
 
-    	$data = DB::table('pelajaran')->get();
+    	$data = DB::table('kelas')->get();
 
-    	return view('pelajaran', ['pelajaran' => $data]);
+    	return view('kelas', ['kelas' => $data]);
     	
     }
 
@@ -28,18 +28,17 @@ class PelajaranController extends Controller
         ];
 
         $this->validate($request,[
-            'kode_pelajaran' => 'required|max:8',
-            'nama_pelajaran' => 'required|max:16',
+            'id_kelas' => 'required|max:8',
+            'nama_kelas' => 'required|max:8',
         ], $messages);
 
 
-
-    	DB::table("pelajaran")->insert([
-    		'kode_pelajaran' => $request->kode_pelajaran,
-    		'nama_pelajaran' => $request->nama_pelajaran,
+    	DB::table("kelas")->insert([
+    		'id_kelas' => $request->id_kelas,
+    		'nama_kelas' => $request->nama_kelas,
     	]);
 
-    	return redirect('pelajaran');
+    	return redirect('kelas');
     }
 
     public function update(Request $request) {
@@ -53,24 +52,25 @@ class PelajaranController extends Controller
         ];
 
         $this->validate($request,[
-            'kode_pelajaran' => 'required|max:8',
-            'nama_pelajaran' => 'required|max:16',
+            'id_kelas' => 'required|max:8',
+            'nama_kelas' => 'required|max:8',
         ], $messages);
-        
-         DB::table("pelajaran")->where("kode_pelajaran", $request->kode_pelajaran)->update([
-    		'nama_pelajaran' => $request->nama_pelajaran,
+
+        //
+         DB::table("kelas")->where("id_kelas", $request->id_kelas)->update([
+    		'nama_kelas' => $request->nama_kelas,
     	]);
 
-         DB::table("pelajaran")->where("nama_pelajaran", $request->nama_pelajaran)->update([
-    		'kode_pelajaran' => $request->kode_pelajaran
+         DB::table("kelas")->where("nama_kelas", $request->nama_kelas)->update([
+    		'id_kelas' => $request->id_kelas
     	]);
 
-        return redirect('pelajaran');
+        return redirect('kelas');
     }
 
     public function destroy($id) {
-        DB::table('pelajaran')->where('kode_pelajaran', $id)->delete();
+        DB::table('kelas')->where('id_kelas', $id)->delete();
 
-        return redirect('pelajaran');
+        return redirect('kelas');
     }
 }

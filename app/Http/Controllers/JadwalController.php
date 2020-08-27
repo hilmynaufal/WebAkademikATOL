@@ -22,6 +22,25 @@ class JadwalController extends Controller
     }
 
     public function store(Request $request) {
+
+        $messages = [
+            'required' => ':attribute tidak boleh kosong!',
+            'min' => ':attribute minimal :min karakter!',
+            'max' => ':attribute maksimal :max karakter!',
+            'date' => 'masukan format tanggal yg benar! Contoh: 2020-05-29',
+            'time' => 'masukan format waktu yang benar! Contoh: 20:00'
+        ];
+
+        $this->validate($request,[
+            'nip' => 'required|max:16',
+            'kode_pelajaran' => 'required|max:30',
+            'hari' => 'required|max:8',
+            'waktu' => 'required|max:8',
+            'lama' => 'required|max:8',
+            'kelas' => 'required|max:8',
+        ], $messages);
+
+
     	DB::table("jadwal")->insert([
     		'nip' => $request->nip,
     		'kode_pelajaran' => $request->kode_pelajaran,
@@ -35,7 +54,25 @@ class JadwalController extends Controller
     }
 
     public function update(Request $request) {
-        //
+
+        $messages = [
+            'required' => ':attribute tidak boleh kosong!',
+            'min' => ':attribute minimal :min karakter!',
+            'max' => ':attribute maksimal :max karakter!',
+            'date' => 'masukan format tanggal yg benar! Contoh: 2020-05-29',
+            'time' => 'masukan format waktu yang benar! Contoh: 20:00'
+        ];
+
+        $this->validate($request,[
+            'nip' => 'required|max:16',
+            'kode_pelajaran' => 'required|max:30',
+            'hari' => 'required|max:8',
+            'waktu' => 'required|max:8',
+            'lama' => 'required|max:8',
+            'kelas' => 'required|max:8',
+        ], $messages);
+
+
          DB::table("jadwal")->where("Id_jdwl", $request->Id_jdwl)->update([
             'nip' => $request->nip,
             'kode_pelajaran' => $request->kode_pelajaran,

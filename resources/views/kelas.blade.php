@@ -17,15 +17,15 @@
   </thead>
   <tbody>
 
-    @foreach($pelajaran as $val)
+    @foreach($kelas as $val)
 
     <tr>
       <th scope="row">{{ $loop->iteration }}</th>
-      <td>{{ $val->kode_pelajaran }}</td>
-      <td>{{ $val->nama_pelajaran}}</td>
+      <td>{{ $val->id_kelas }}</td>
+      <td>{{ $val->nama_kelas}}</td>
         
-          <td><a class="bg-warning p-2 text-white rounded edit-modal-click" data-id="{{ $val->kode_pelajaran }}">EDIT</a></td>
-         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData('{{ $val->kode_pelajaran }}')" data-target="#DeleteModal" class="bg-danger p-2 text-white rounded">DELETE</td>
+          <td><a class="bg-warning p-2 text-white rounded edit-modal-click" data-id="{{ $val->id_kelas }}">EDIT</a></td>
+         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData('{{ $val->id_kelas }}')" data-target="#DeleteModal" class="bg-danger p-2 text-white rounded">DELETE</td>
 
     </tr>
     @endforeach
@@ -56,16 +56,16 @@
         </button>
       </div>
           <div class="modal-body">
-            <form action="/pelajaran/tambah" method="post">
+            <form action="/kelas/tambah" method="post">
               @csrf
                 <div class="form-group">
-                  <label>Kode Pelajaran</label>
-                    <input type="text" name="kode_pelajaran" class="form-control">      
+                  <label>ID Kelas</label>
+                    <input type="text" name="id_kelas" class="form-control">      
                   </div>
 
                  <div class="form-group">
-                  <label>Nama Pelajaran</label>
-            <input type="text" name="nama_pelajaran" class="form-control">      
+                  <label>Nama Kelas</label>
+            <input type="text" name="nama_kelas" class="form-control">      
           </div>  
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
@@ -87,16 +87,16 @@
         </button>
       </div>
           <div class="modal-body">
-            <form action="/pelajaran/update" method="post">
+            <form action="/kelas/update" method="post">
               @csrf
                 <div class="form-group">
-                  <label>Kode Pelajaran</label>
-                    <input type="text" name="kode_pelajaran" id="edit-kode_pelajaran" class="form-control">      
+                  <label>ID Kelas</label>
+                    <input type="text" name="id_kelas" id="edit-id_kelas" class="form-control">      
                   </div>
 
                  <div class="form-group">
-                  <label>Nama Pelajaran</label>
-            <input type="text" name="nama_pelajaran" class="form-control" id="edit-nama_pelajaran">      
+                  <label>Nama Kelas</label>
+            <input type="text" name="nama_kelas" class="form-control" id="edit-nama_kelas">      
           </div>
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
@@ -143,8 +143,8 @@
     var id = $(this).attr('data-id');
     var rowCells = $(this).closest("tr").children(); 
     var nama = rowCells.eq(2).text();
-     $("#edit-kode_pelajaran").val(id);
-     $("#edit-nama_pelajaran").val(nama);
+     $("#edit-id_kelas").val(id);
+     $("#edit-nama_kelas").val(nama);
      $('#EditModal').modal('show');
     });
 
@@ -152,7 +152,7 @@
   function deleteData(id)
      {
          var id = id;
-         var url = "pelajaran/hapus/id";
+         var url = "kelas/hapus/id";
          url = url.replace('id', id);
          $("#deleteForm").attr('action', url);
      }

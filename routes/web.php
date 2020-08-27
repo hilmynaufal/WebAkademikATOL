@@ -13,7 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'SiswaController@index');
+Auth::routes();
+
+Route::get('/', function () {
+ return view('auth/login');
+});
 
 Route::get('/siswa', "SiswaController@index");
 Route::post('/siswa/tambah', "SiswaController@store");
@@ -41,9 +45,15 @@ Route::post('/nilai/tambah', "NilaiController@store");
 Route::post('/nilai/update', "NilaiController@update");
 Route::get('/nilai/hapus/{id}/pelajaran/{id2}', "NilaiController@destroy");
 
-Auth::routes();
+Route::get('/kelas', "KelasController@index");
+Route::post('/kelas/tambah', "KelasController@store");
+Route::post('/kelas/update', "KelasController@update");
+Route::get('/kelas/hapus/{id}', "KelasController@destroy");
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/test', function () {
 	return view('logintest');
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

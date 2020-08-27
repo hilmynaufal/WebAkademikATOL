@@ -4,8 +4,8 @@
 
 <div id="content" class="p-4 p-md-5 pt-5">
 <div class="col-md-12 p-5 pt-2">
-   <h3><i class=""></i>SISWA</h3><hr>
-   <a href="javascript:;" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary mr-3"><i class= ""></i></i>Tambah Data</a>
+   <h3><i class="fa fa-user mr-2"></i>SISWA</h3><hr>
+   <a href="javascript:;" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary mr-3"><i class= "fa fa-plus mr-2"></i></i>Tambah Data</a>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -42,7 +42,16 @@
 
   </tbody>
 </table>
-
+  @if (count($errors) > 0)
+  <div class="alert alert-danger">
+    <h5>Error Memasukan Data</h5>
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+  @endif
 </div>
 
 <div class="modal fade" id="CreateModal" role="dialog">
@@ -55,16 +64,21 @@
         </button>
       </div>
           <div class="modal-body">
-            <form action="/siswa/tambah" method="post">
+
+            <form method="post" action="/siswa/tambah">
               @csrf
                 <div class="form-group">
                   <label>Nisn</label>
-                    <input type="text" name="nisn" class="form-control">      
+                    <input type="text" name="nisn" id="nisn" class="form-control">    
+                    <span class="text-danger">
+                      <strong id="name-error"></strong>
+                    </span>   
                   </div>
 
                  <div class="form-group">
                   <label>Nama Siswa</label>
-            <input type="text" name="nama_siswa" class="form-control">      
+            <input type="text" name="nama_siswa" class="form-control">
+                   
           </div>
           <div class="form-group">
                   <label>Jenis Kelamin</label>
@@ -92,7 +106,7 @@
             <input type="text" name="alamat" class="form-control">
           </div>
           <div class="modal-footer">  
-        <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
+        <button type="submit" class="btn btn-success">Simpan</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       </div>
       </form>
@@ -204,7 +218,6 @@
      $("#edit-alamat").val(alamat);
      $('#EditModal').modal('show');
     });
-
 
   function deleteData(id)
      {

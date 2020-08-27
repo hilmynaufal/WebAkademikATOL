@@ -1,11 +1,11 @@
-@extends('home')
+@extends('test')
 
 @section('container')
 
 <div id="content" class="p-4 p-md-5 pt-5">
 <div class="col-md-12 p-5 pt-2">
-   <h3><i class="fas fa-paperclip mr-2"></i>GURU</h3><hr>
-   <a href="javascript:;" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary mr-3"><i class= "fas fa-plus mr-2"></i></i>Tambah Data</a>
+   <h3><i class="fa fa-paperclip mr-2"></i>GURU</h3><hr>
+   <a href="javascript:;" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary mr-3"><i class= "fa fa-plus mr-2"></i></i>Tambah Data</a>
 <table class="table table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -15,7 +15,6 @@
       <th scope="col">Jenis Kelamin</th>
       <th scope="col">Tanggal Lahir</th>
       <th scope="col">Alamat</th>
-      <th scope="col">Kelas Wali</th>
       <th colspan="2" scope="col">AKSI</th>
     </tr>
   </thead>
@@ -25,15 +24,14 @@
 
     <tr>
       <th scope="row">{{ $loop->iteration }}</th>
-      <td>{{ $val->Nip }}</td>
+      <td>{{ $val->nip }}</td>
       <td>{{ $val->nama_guru}}</td>
       <td>{{ $val->jk}}</td>
       <td>{{ $val->tanggal_lahir}}</td>
       <td>{{ $val->alamat}}</td>
-      <td>{{ $val->kelas_wali}}</td>
         
-          <td><a class="fas fa-edit bg-warning p-2 text-white rounded edit-modal-click" data-id="{{ $val->Nip }}">EDIT</a></td>
-         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData({{$val->Nip}})" data-target="#DeleteModal" class="fas fa-trash bg-danger p-2 text-white rounded">DELETE</td>
+          <td><a class="bg-warning p-2 text-white rounded edit-modal-click" data-id="{{ $val->nip }}">EDIT</a></td>
+         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData({{$val->nip}})" data-target="#DeleteModal" class="bg-danger p-2 text-white rounded">DELETE</td>
 
     </tr>
     @endforeach
@@ -42,7 +40,16 @@
 
   </tbody>
 </table>
-
+  @if (count($errors) > 0)
+  <div class="alert alert-danger">
+    <h5>Error Memasukan Data</h5>
+      <ul>
+          @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+          @endforeach
+      </ul>
+  </div>
+  @endif
 </div>
 
 <div class="modal fade" id="CreateModal" role="dialog">
@@ -59,7 +66,7 @@
               @csrf
                 <div class="form-group">
                   <label>Nip</label>
-                    <input type="text" name="Nip" class="form-control">      
+                    <input type="text" name="nip" class="form-control">      
                   </div>
 
                  <div class="form-group">
@@ -81,10 +88,6 @@
           <div class="form-group">
                   <label>Alamat</label>
             <input type="text" name="alamat" class="form-control">
-          </div>
-          <div class="form-group">
-                  <label>Kelas Wali</label>
-            <input type="text" name="kelas_wali" class="form-control">
           </div>
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
@@ -110,7 +113,7 @@
               @csrf
                 <div class="form-group">
                   <label>Nip</label>
-                    <input type="text" name="Nip" class="form-control" id="edit-Nip" readonly>      
+                    <input type="text" name="nip" class="form-control" id="edit-Nip" readonly>      
                   </div>
 
                  <div class="form-group">
@@ -132,10 +135,6 @@
           <div class="form-group">
                   <label>Alamat</label>
             <input type="text" name="alamat" class="form-control" id="edit-alamat">
-          </div>
-          <div class="form-group">
-                  <label>Kelas Wali</label>
-            <input type="text" name="kelas_wali" class="form-control" id="edit-kelas_wali">
           </div>
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
@@ -185,13 +184,12 @@
     var jenis_kelamin = rowCells.eq(3).text();
     var tanggal_lahir = rowCells.eq(4).text();
     var alamat = rowCells.eq(5).text();
-    var kelas_wali = rowCells.eq(6).text();
+
      $("#edit-Nip").val(id);
      $("#edit-nama_guru").val(nama);
      $("#edit-jenis_kelamin").val(jenis_kelamin).change();     
      $("#edit-tanggal_lahir").val(tanggal_lahir);
      $("#edit-alamat").val(alamat);
-     $("#edit-kelas_wali").val(kelas_wali);
      $('#EditModal').modal('show');
     });
 
@@ -199,7 +197,7 @@
   function deleteData(id)
      {
          var id = id;
-         var url = "pelajaran/hapus/id";
+         var url = "guru/hapus/id";
          url = url.replace('id', id);
          $("#deleteForm").attr('action', url);
      }

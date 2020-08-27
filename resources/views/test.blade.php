@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+  	<base href="/">
   	<title>Sidebar 02</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,6 +38,12 @@
 				</li>
 				<li>
 				<a href="pelajaran"><span class="fa fa-paper-plane mr-3"></span> Pelajaran</a>
+				</li>
+				<li>
+				<a href="kelas"><span class="fa fa-paper-plane mr-3"></span> Kelas</a>
+				</li>
+				<li>
+				<a href="laporan"><span class="fa fa-paper-plane mr-3"></span> Laporan</a>
 				</li>
 	        </ul>
 
