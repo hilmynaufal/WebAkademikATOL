@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class KelasController extends Controller
+class SemesterController extends Controller
 {
     //
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -16,9 +17,9 @@ class KelasController extends Controller
 
     public function index() {
 
-    	$data = DB::table('kelas')->get();
+    	$data = DB::table('semester')->get();
 
-    	return view('kelas', ['kelas' => $data]);
+    	return view('semester', ['semester' => $data]);
     	
     }
 
@@ -34,17 +35,18 @@ class KelasController extends Controller
         ];
 
         $this->validate($request,[
-            'id_kelas' => 'required|max:8',
-            'nama_kelas' => 'required|max:8',
+            'id_semester' => 'required|max:8',
+            'semester' => 'required|max:16',
         ], $messages);
 
 
-    	DB::table("kelas")->insert([
-    		'id_kelas' => $request->id_kelas,
-    		'nama_kelas' => $request->nama_kelas,
+
+    	DB::table("semester")->insert([
+    		'id_semester' => $request->id_semester,
+    		'semester' => $request->semester,
     	]);
 
-    	return redirect('kelas');
+    	return redirect('semester');
     }
 
     public function update(Request $request) {
@@ -58,25 +60,24 @@ class KelasController extends Controller
         ];
 
         $this->validate($request,[
-            'id_kelas' => 'required|max:8',
-            'nama_kelas' => 'required|max:8',
+            'id_semester' => 'required|max:1',
+            'semester' => 'required|max:1',
         ], $messages);
-
-        //
-         DB::table("kelas")->where("id_kelas", $request->id_kelas)->update([
-    		'nama_kelas' => $request->nama_kelas,
+        
+         DB::table("semester")->where("id_semester", $request->id_semester)->update([
+    		'semester' => $request->semester,
     	]);
 
-         DB::table("kelas")->where("nama_kelas", $request->nama_kelas)->update([
-    		'id_kelas' => $request->id_kelas
+         DB::table("semester")->where("semester", $request->semester)->update([
+    		'id_semester' => $request->id_semester
     	]);
 
-        return redirect('kelas');
+        return redirect('semester');
     }
 
     public function destroy($id) {
-        DB::table('kelas')->where('id_kelas', $id)->delete();
+        DB::table('semester')->where('id_semester', $id)->delete();
 
-        return redirect('kelas');
+        return redirect('semester');
     }
 }

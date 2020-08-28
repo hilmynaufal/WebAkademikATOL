@@ -5,20 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class KelasController extends Controller
+class TahunController extends Controller
 {
     //
+
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-
     public function index() {
 
-    	$data = DB::table('kelas')->get();
+    	$data = DB::table('tahun')->get();
 
-    	return view('kelas', ['kelas' => $data]);
+    	return view('tahun', ['tahun' => $data]);
     	
     }
 
@@ -34,17 +34,18 @@ class KelasController extends Controller
         ];
 
         $this->validate($request,[
-            'id_kelas' => 'required|max:8',
-            'nama_kelas' => 'required|max:8',
+            'id_tahun' => 'required|max:8',
+            'tahun_pelajaran' => 'required|max:16',
         ], $messages);
 
 
-    	DB::table("kelas")->insert([
-    		'id_kelas' => $request->id_kelas,
-    		'nama_kelas' => $request->nama_kelas,
+
+    	DB::table("tahun")->insert([
+    		'id_tahun' => $request->id_tahun,
+    		'tahun_pelajaran' => $request->tahun_pelajaran,
     	]);
 
-    	return redirect('kelas');
+    	return redirect('tahun');
     }
 
     public function update(Request $request) {
@@ -58,25 +59,24 @@ class KelasController extends Controller
         ];
 
         $this->validate($request,[
-            'id_kelas' => 'required|max:8',
-            'nama_kelas' => 'required|max:8',
+            'id_tahun' => 'required|max:8',
+            'tahun_pelajaran' => 'required|max:16',
         ], $messages);
-
-        //
-         DB::table("kelas")->where("id_kelas", $request->id_kelas)->update([
-    		'nama_kelas' => $request->nama_kelas,
+        
+         DB::table("tahun")->where("id_tahun", $request->id_tahun)->update([
+    		'tahun_pelajaran' => $request->tahun_pelajaran,
     	]);
 
-         DB::table("kelas")->where("nama_kelas", $request->nama_kelas)->update([
-    		'id_kelas' => $request->id_kelas
+         DB::table("tahun")->where("tahun_pelajaran", $request->tahun_pelajaran)->update([
+    		'id_tahun' => $request->id_tahun
     	]);
 
-        return redirect('kelas');
+        return redirect('tahun');
     }
 
     public function destroy($id) {
-        DB::table('kelas')->where('id_kelas', $id)->delete();
+        DB::table('tahun')->where('id_tahun', $id)->delete();
 
-        return redirect('kelas');
+        return redirect('tahun');
     }
 }

@@ -28,22 +28,36 @@
 				<a href="siswa"><span class="fa fa-user mr-3"></span> Siswa</a>
 				</li>
 				<li>
-				<a href="jadwal"><span class="fa fa-sticky-note mr-3"></span> Jadwal</a>
+				<a href="jadwal"><span class="fa fa-calendar mr-3"></span> Jadwal</a>
 				</li>
 				<li>
-				<a href="guru"><span class="fa fa-sticky-note mr-3"></span> Guru</a>
+				<a href="guru"><span class="fa fa-user-secret mr-3"></span> Guru</a>
 				</li>
 				<li>
-				<a href="nilai"><span class="fa fa-paper-plane mr-3"></span> Nilai</a>
+				<a href="nilai"><span class="fa fa-graduation-cap mr-3"></span> Nilai</a>
 				</li>
 				<li>
-				<a href="pelajaran"><span class="fa fa-paper-plane mr-3"></span> Pelajaran</a>
+				<a href="pelajaran"><span class="fa fa-book mr-3"></span> Pelajaran</a>
 				</li>
 				<li>
 				<a href="kelas"><span class="fa fa-paper-plane mr-3"></span> Kelas</a>
 				</li>
 				<li>
-				<a href="laporan"><span class="fa fa-paper-plane mr-3"></span> Laporan</a>
+				<a href="tahun"><span class="fa fa-clock-o mr-3"></span> Tahun Pelajaran</a>
+				</li>
+				<li>
+				<a href="semester"><span class="fa fa-toggle-down mr-3"></span> Semester</a>
+				</li>
+				<li>
+				<a href="laporan"><span class="fa fa-file-pdf-o mr-3"></span> Laporan</a>
+				</li>
+				<li>
+				<br>
+				<center><a href="{{ route('logout') }}" onclick="event.preventDefault();
+                 document.getElementById('logout-form').submit();" class="btn btn-danger"><span class="fa fa-power-off mr-3"></span> LOG OUT</a></center>
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                   @csrf
+                 </form>
 				</li>
 	        </ul>
 

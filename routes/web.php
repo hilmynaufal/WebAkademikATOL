@@ -43,17 +43,28 @@ Route::get('/nilai', "NilaiController@index");
 Route::get('/nilai/{id}', "NilaiController@show");
 Route::post('/nilai/tambah', "NilaiController@store");
 Route::post('/nilai/update', "NilaiController@update");
-Route::get('/nilai/hapus/{id}/pelajaran/{id2}', "NilaiController@destroy");
+Route::get('/nilai/hapus/{id}/pelajaran/{id2}/tahun/{id3}/semester/{id4}', "NilaiController@destroy");
 
 Route::get('/kelas', "KelasController@index");
 Route::post('/kelas/tambah', "KelasController@store");
 Route::post('/kelas/update', "KelasController@update");
 Route::get('/kelas/hapus/{id}', "KelasController@destroy");
 
+Route::get('/tahun', "TahunController@index");
+Route::post('/tahun/tambah', "TahunController@store");
+Route::post('/tahun/update', "TahunController@update");
+Route::get('/tahun/hapus/{id}', "TahunController@destroy");
+
+Route::get('/semester', "SemesterController@index");
+Route::post('/semester/tambah', "SemesterController@store");
+Route::post('/semester/update', "SemesterController@update");
+Route::get('/semester/hapus/{id}', "SemesterController@destroy");
+
+Route::get('/laporan', 'LaporanController@index');
+Route::get('/laporan/cetak_pdf/{id}/tahun/{id2}/semester/{id3}', 'LaporanController@cetak_pdf');
+
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/test', function () {
-	return view('logintest');
-});
+Route::get('/test', 'LaporanController@test');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

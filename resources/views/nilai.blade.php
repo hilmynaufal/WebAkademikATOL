@@ -32,7 +32,10 @@
       <th scope="col">UAS</th>
       <th scope="col">Kehadiran</th>
       <th scope="col">Nilai Akhir</th>
+      <th scope="col">Predikat</th>
       <th scope="col">Kelulusan</th>
+      <th scope="col">Tahun Pengajaran</th>
+      <th scope="col">Semester</th>
       <th colspan="2" scope="col">AKSI</th>
     </tr>
   </thead>
@@ -51,11 +54,14 @@
       <td>{{ $val->uas}}</td>
       <td>{{ $val->kehadiran}}</td>
       <td>{{ $val->na}}</td>
+      <td>{{ $val->predikat}}</td>
       <td>{{ $val->kelulusan}}</td>
+      <td>{{ $val->id_tahun}}</td>
+      <td>{{ $val->id_semester}}</td>
 
         
-          <td><a class="bg-warning p-2 text-white rounded edit-modal-click" data-Nisn="{{ $val->nisn }}" data-kode-pelajaran="{{ $val->kode_pelajaran }}">EDIT</a></td>
-         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData('{{ $val->nisn }}', '{{ $val->kode_pelajaran }}')"" data-target="#DeleteModal" class="bg-danger p-2 text-white rounded">DELETE</a></td>
+          <td><a class="bg-warning p-2 text-white rounded edit-modal-click" data-Nisn="{{ $val->nisn }}" data-kode-pelajaran="{{ $val->kode_pelajaran }}" data-OldTahun="{{ $val->id_tahun}}" data-OldSemester="{{ $val->id_semester}}">EDIT</a></td>
+         <td><a href="javascript:;" data-toggle="modal" onclick="deleteData('{{ $val->nisn }}', '{{ $val->kode_pelajaran }}', '{{ $val->id_tahun }}', '{{ $val->id_semester }}')"" data-target="#DeleteModal" class="bg-danger p-2 text-white rounded">DELETE</a></td>
 
     </tr>
     @endforeach
@@ -122,19 +128,25 @@
           <div class="form-group">
                   <label>Kehadiran</label>
             <input type="number" name="kehadiran" class="form-control">      
-          </div>
+          </div>  
           <div class="form-group">
-                  <label>Nilai Akhir</label>
-            <input type="number" name="na" class="form-control">      
-          </div>
+                  <label>Tahun Pelajaran</label>
+                    <select class="form-control form-control-md" name="id_tahun">
+                      <option selected disabled value="">-- Tahun Pelajaran --</option>
+                        @foreach ($tahun as $val)
+                         <option value="{{$val->id_tahun}}">{{$val->tahun_pelajaran}}</option>
+                        @endforeach
+                      </select>      
+                  </div>
           <div class="form-group">
-                  <label>Lulus</label>
-                 <select class="form-control form-control-md" name="kelulusan">
-                      <option selected disabled value="">-- Kelulusan --</option>
-                         <option value="Tidak Lulus">Tidak Lulus</option>
-                         <option value="Lulus">Lulus</option>
-                  </select>
-          </div>
+                  <label>Semester</label>
+                    <select class="form-control form-control-md" name="id_semester">
+                      <option selected disabled value="">-- Semester --</option>
+                        @foreach ($semester as $val)
+                         <option value="{{$val->id_semester}}">{{$val->semester}}</option>
+                        @endforeach
+                      </select>      
+                  </div>
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -196,20 +208,34 @@
             <input type="number" name="uas" id="edit-uas" class="form-control">      
           </div>
           <div class="form-group">
-                  <label>Nilai Akhir</label>
-            <input type="number" name="na" id="edit-na" class="form-control">      
-          </div>
-          <div class="form-group">
                   <label>Kehadiran</label>
             <input type="number" name="kehadiran" id="edit-kehadiran" class="form-control">      
           </div>
           <div class="form-group">
-                  <label>Kelulusan</label>
-                 <select class="form-control form-control-md" id="edit-kelulusan" name="kelulusan">
-                      <option selected disabled value="">-- Kelulusan --</option>
-                         <option value="Tidak Lulus">Tidak Lulus</option>
-                         <option value="Lulus">Lulus</option>
-                      </select>
+                  <label>Tahun Pelajaran</label>
+                    <select class="form-control form-control-md" name="id_tahun" id="edit-tahun_pelajaran">
+                      <option selected disabled value="">-- Tahun Pelajaran --</option>
+                        @foreach ($tahun as $val)
+                         <option value="{{$val->id_tahun}}">{{$val->tahun_pelajaran}}</option>
+                        @endforeach
+                      </select>      
+                  </div>
+          <div class="form-group">
+                  <label>Semester</label>
+                    <select class="form-control form-control-md" name="id_semester" id="edit-semester">
+                      <option selected disabled value="">-- Semester --</option>
+                        @foreach ($semester as $val)
+                         <option value="{{$val->id_semester}}">{{$val->semester}}</option>
+                        @endforeach
+                      </select>      
+                  </div>
+                  <div class="form-group" hidden>
+                  <label>Tahun Pelajaran</label>
+            <input type="text" name="OldTahun" id="edit-OldTahun" class="form-control">      
+          </div>
+          <div class="form-group" hidden>
+          <label>Semester</label>
+            <input type="text" name="OldSemester" id="edit-OldSemester" class="form-control">      
           </div>
           <div class="modal-footer">  
         <button type="submit" class="btn btn-success" data-dissmis="modal">Simpan</button>
@@ -267,8 +293,8 @@
     var uts = rowCells.eq(6).text();
     var uas = rowCells.eq(7).text();
     var kehadiran = rowCells.eq(8).text();
-    var na = rowCells.eq(9).text();
-    var kelulusan = rowCells.eq(10).text();
+    var tahun_pelajaran = rowCells.eq(12).text();
+    var semester = rowCells.eq(13).text();
     $('#edit-Nisn').val(nisn);
     $('#edit-kode_pelajaran').val(kode_pelajaran);
     $('#edit-nama_siswa').val(nisn);
@@ -277,18 +303,24 @@
     $('#edit-uts').val(uts);
     $('#edit-uas').val(uas);
     $('#edit-kehadiran').val(kehadiran);
-    $('#edit-na').val(na);
-    $('#edit-kelulusan').val(kelulusan);
+    $('#edit-tahun_pelajaran').val(tahun_pelajaran);
+    $('#edit-semester').val(semester);
+    $('#edit-OldTahun').val(tahun_pelajaran);
+    $('#edit-OldSemester').val(semester);
     $('#EditModal').modal('show');
     });
 
 
-  function deleteData(id, id2) {
+  function deleteData(id, id2, id3, id4) {
          var id = id;
          var id2 = id2;
-         var url = "nilai/hapus/id/pelajaran/id2";
+         var id3 = id3;
+         var id4 = id4;
+         var url = "nilai/hapus/id/pelajaran/id2/tahun/id3/semester/id4";
          url = url.replace('id', id);
          url = url.replace('id2', id2);
+         url = url.replace('id3', id3);
+         url = url.replace('id4', id4);
          $("#deleteForm").attr('action', url);
   }
 

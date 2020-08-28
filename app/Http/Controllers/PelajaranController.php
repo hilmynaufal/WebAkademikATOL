@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 class PelajaranController extends Controller
 {
     //
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index() {
 
     	$data = DB::table('pelajaran')->get();
